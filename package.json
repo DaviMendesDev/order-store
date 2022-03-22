@@ -24,5 +24,11 @@
         "vue": "^2.6.12",
         "vue-loader": "^15.9.8",
         "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "jquery": "^3.6.0",
+        "maska": "^1.5.0",
+        "v-money": "^0.8.1",
+        "vue-the-mask": "^0.11.1"
     }
 }

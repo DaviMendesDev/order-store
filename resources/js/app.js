@@ -6,6 +6,12 @@
 
 window.Vue = require('vue').default;
 
+window.axios = require('axios');
+
+Vue.use(require('vue-the-mask'));
+Vue.use(require('v-money'));
+Vue.use(require('maska'));
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -18,6 +24,10 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('home', require('./components/Home.vue').default);
+Vue.component('list-order', require('./components/orders/List.vue').default);
+Vue.component('add-order', require('./components/orders/Add.vue').default);
+Vue.component('order-list-item', require('./components/orders/OrderListItem.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

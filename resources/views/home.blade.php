@@ -1,7 +1,7 @@
-@extends('mainLayout')
+@extends('layouts.mainLayout')
 
 @section('title', __('Add Order'))
 
 @section('content')
-  <example-component></example-component>
+  <home listing-route="{{ route('orders.list') }}" add-route="{{ route('orders.store') }}"></home>
 @endsection

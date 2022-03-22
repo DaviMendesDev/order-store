@@ -10,7 +10,7 @@
 
   @yield('extra-styles')
 </head>
-<body>
+<body class="bg-orange-50/50">
   <div id="app">
     @yield('content')
   </div>
