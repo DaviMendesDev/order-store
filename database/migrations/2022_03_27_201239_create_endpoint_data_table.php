@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order', function (Blueprint $table) {
+        Schema::create('endpoint_data', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 20)->nullable();
+            $table->string('data_json', 1500);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order');
+        Schema::dropIfExists('endpoint_data');
     }
 };

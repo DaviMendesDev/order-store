@@ -2232,6 +2232,10 @@ __webpack_require__.r(__webpack_exports__);
     addRoute: {
       type: String,
       required: true
+    },
+    csrfToken: {
+      type: String,
+      required: true
     }
   }
 });
@@ -2249,6 +2253,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2296,7 +2302,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Money: v_money__WEBPACK_IMPORTED_MODULE_0__.Money
+  },
   data: function data() {
     return {
       orders: [],
@@ -2310,21 +2325,30 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    saveNewOrder: function saveNewOrder() {},
+    saveNewOrder: function saveNewOrder() {
+      axios.post(this.addRoute, {
+        orders: this.orders,
+        _token: this.csrfToken
+      });
+    },
     removeOrderItem: function removeOrderItem(index) {
       this.orders.splice(index, 1);
     },
     addOrder: function addOrder() {
       this.orders.push({
-        code: null,
-        name: null,
-        unitPrice: null,
+        article_code: null,
+        article_name: null,
+        unit_price: null,
         quantity: null
       });
     }
   },
   props: {
     addRoute: {
+      type: String,
+      required: true
+    },
+    csrfToken: {
       type: String,
       required: true
     }
@@ -2448,7 +2472,9 @@ __webpack_require__.r(__webpack_exports__);
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 Vue.use(__webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js"));
-Vue.use(__webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js"));
+Vue.use(__webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js"), {
+  masked: false
+});
 Vue.use(__webpack_require__(/*! maska */ "./node_modules/maska/dist/maska.esm.js"));
 /**
  * The following block of code may be used to automatically register your
@@ -3912,7 +3938,9 @@ var render = function () {
     "div",
     { staticClass: "my-40 mx-auto w-4/12" },
     [
-      _c("add-order", { attrs: { "add-route": _vm.addRoute } }),
+      _c("add-order", {
+        attrs: { "add-route": _vm.addRoute, "csrf-token": _vm.csrfToken },
+      }),
       _vm._v(" "),
       _c("list-order", { attrs: { "listing-route": _vm.listingRoute } }),
     ],
@@ -3956,12 +3984,18 @@ var render = function () {
           },
         },
         [
+          _c("input", {
+            attrs: { type: "hidden" },
+            domProps: { value: _vm.csrfToken },
+          }),
+          _vm._v(" "),
           _c("div", { staticClass: "relative h-8 mb-4 mx-2" }, [
             _c(
               "button",
               {
                 staticClass:
                   "inline-block rounded absolute right-0 top-0 text-white bg-neutral-300 px-3 font-bold shadow hover:shadow-xl w-10",
+                attrs: { type: "button" },
                 on: { click: _vm.addOrder },
               },
               [_vm._v("+")]
@@ -3987,6 +4021,7 @@ var render = function () {
                         {
                           staticClass:
                             "inline-block rounded absolute right-0 text-white bg-red-400 px-3 w-10 font-bold shadow hover:shadow-xl mx-2",
+                          attrs: { type: "button" },
                           on: {
                             click: function ($event) {
                               return _vm.removeOrderItem(index)
@@ -4008,8 +4043,8 @@ var render = function () {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: order.code,
-                              expression: "order.code",
+                              value: order.article_code,
+                              expression: "order.article_code",
                             },
                             {
                               name: "mask",
@@ -4024,13 +4059,17 @@ var render = function () {
                             type: "text",
                             placeholder: "Ex.: 12345",
                           },
-                          domProps: { value: order.code },
+                          domProps: { value: order.article_code },
                           on: {
                             input: function ($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(order, "code", $event.target.value)
+                              _vm.$set(
+                                order,
+                                "article_code",
+                                $event.target.value
+                              )
                             },
                           },
                         }),
@@ -4046,8 +4085,8 @@ var render = function () {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: order.name,
-                              expression: "order.name",
+                              value: order.article_name,
+                              expression: "order.article_name",
                             },
                           ],
                           staticClass: "input",
@@ -4056,73 +4095,57 @@ var render = function () {
                             type: "text",
                             placeholder: "Ex.: Any Name",
                           },
-                          domProps: { value: order.name },
+                          domProps: { value: order.article_name },
                           on: {
                             input: function ($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(order, "name", $event.target.value)
+                              _vm.$set(
+                                order,
+                                "article_name",
+                                $event.target.value
+                              )
                             },
                           },
                         }),
                       ]),
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "label-input-group" }, [
-                      _c("label", { attrs: { for: "unitPrice-" + index } }, [
-                        _vm._v("Unit price"),
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: order.unitPrice,
-                            expression: "order.unitPrice",
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model.lazy",
-                            value: order.unitPrice,
-                            expression: "order.unitPrice",
-                            modifiers: { lazy: true },
-                          },
-                          {
-                            name: "money",
-                            rawName: "v-money",
-                            value: _vm.moneyFormat,
-                            expression: "moneyFormat",
-                          },
-                        ],
-                        staticClass: "input",
-                        attrs: {
-                          id: "unitPrice-" + index,
-                          type: "text",
-                          placeholder: "Ex.: R$ 80,99",
-                        },
-                        domProps: {
-                          value: order.unitPrice,
-                          value: order.unitPrice,
-                        },
-                        on: {
-                          input: function ($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(order, "unitPrice", $event.target.value)
-                          },
-                          change: function ($event) {
-                            return _vm.$set(
-                              order,
-                              "unitPrice",
-                              $event.target.value
-                            )
-                          },
-                        },
-                      }),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "label-input-group" },
+                      [
+                        _c("label", { attrs: { for: "unitPrice-" + index } }, [
+                          _vm._v("Unit price"),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "money",
+                          _vm._b(
+                            {
+                              staticClass: "input",
+                              attrs: {
+                                id: "unitPrice-" + index,
+                                type: "text",
+                                placeholder: "Ex.: R$ 80,99",
+                              },
+                              model: {
+                                value: order.unit_price,
+                                callback: function ($$v) {
+                                  _vm.$set(order, "unit_price", $$v)
+                                },
+                                expression: "order.unit_price",
+                              },
+                            },
+                            "money",
+                            _vm.moneyFormat,
+                            false
+                          )
+                        ),
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "label-input-group" }, [
                       _c("label", { attrs: { for: "quantity-" + index } }, [

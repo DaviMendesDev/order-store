@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\GreaterThanZero;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateOrderRequest extends FormRequest
@@ -23,11 +24,12 @@ class CreateOrderRequest extends FormRequest
      */
     public function rules()
     {
+        // TODO: change "orders" to "products"
         return [
-            'code' => ['required', 'string', 'between:1,20'],
-            'name' => ['required', 'string', 'between:1,20'],
-            'unit_price' => ['required', 'numeric', 'min:0.01'],
-            'quantity' => ['required', 'integer', 'min:1'],
+            'orders.*.article_code' => ['required', 'string', 'between:1,20'],
+            'orders.*.article_name' => ['required', 'string', 'between:1,20'],
+            'orders.*.unit_price' => ['required', 'numeric', new GreaterThanZero() ],
+            'orders.*.quantity' => ['required', 'integer', 'min:1'],
         ];
     }
 }

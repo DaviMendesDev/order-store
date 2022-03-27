@@ -12,12 +12,12 @@ class BaseController extends BaseApiController
     public function successResponse ($message, $redirectTo = null, $data = []): \Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         if (request()->wantsJson()) {
-            return $this->success($message);
+            return $this->success($message, $data);
         }
 
         return $redirectTo
-                ? redirect($redirectTo)->with('message', $message)
-                : back()->with('message', $message);
+                ? redirect($redirectTo)->with('message', $message)->with('data', $data)
+                : back()->with('message', $message)->with('data', $data);
     }
 
     /**
@@ -30,8 +30,8 @@ class BaseController extends BaseApiController
         }
 
         return $redirectTo
-                ? redirect($redirectTo)->with('error', $message)
-                : redirect()->back()->with('error', $message);
+                ? redirect($redirectTo)->with('error', $message)->with('data', $data)
+                : redirect()->back()->with('error', $message)->with('data', $data);
     }
 
     /**
@@ -50,7 +50,7 @@ class BaseController extends BaseApiController
         return $this->failResponse(500, "An internal error has occurred, inform the server admin.");
     }
 
-    public function runOrFail (\Closure $callback, string $successMsg): \Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function runOrFail (\Closure $callback, string $successMsg, mixed $data = null): \Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         try {
             DB::beginTransaction();
@@ -58,7 +58,7 @@ class BaseController extends BaseApiController
             $callback();
 
             DB::commit();
-            return $this->successResponse($successMsg);
+            return $this->successResponse($successMsg, null, $data);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->internalError();

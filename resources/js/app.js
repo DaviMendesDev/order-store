@@ -9,7 +9,7 @@ window.Vue = require('vue').default;
 window.axios = require('axios');
 
 Vue.use(require('vue-the-mask'));
-Vue.use(require('v-money'));
+Vue.use(require('v-money'), { masked: false });
 Vue.use(require('maska'));
 
 /**
