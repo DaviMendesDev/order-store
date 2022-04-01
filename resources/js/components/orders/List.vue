@@ -30,6 +30,12 @@ export default {
         }
     },
 
+    methods: {
+        concat (orders) {
+            this.orders = this.orders.concat(orders);
+        }
+    },
+
     props: {
         listingRoute: { type: String, required: true }
     }

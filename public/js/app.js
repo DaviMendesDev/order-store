@@ -2213,6 +2213,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _orders_List__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./orders/List */ "./resources/js/components/orders/List.vue");
 //
 //
 //
@@ -2220,9 +2221,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+  },
+  components: {
+    'list': _orders_List__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    pushOrdersToList: function pushOrdersToList(orders) {
+      this.$refs.list.concat(orders);
+    }
   },
   props: {
     listingRoute: {
@@ -2326,9 +2336,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     saveNewOrder: function saveNewOrder() {
+      var _this = this;
+
       axios.post(this.addRoute, {
         orders: this.orders,
         _token: this.csrfToken
+      }).then(function (res) {
+        _this.$emit('add', res.data.data);
       });
     },
     removeOrderItem: function removeOrderItem(index) {
@@ -2424,6 +2438,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isCompleted: false,
       orders: []
     };
+  },
+  methods: {
+    concat: function concat(orders) {
+      this.orders = this.orders.concat(orders);
+    }
   },
   props: {
     listingRoute: {
@@ -3940,9 +3959,13 @@ var render = function () {
     [
       _c("add-order", {
         attrs: { "add-route": _vm.addRoute, "csrf-token": _vm.csrfToken },
+        on: { add: _vm.pushOrdersToList },
       }),
       _vm._v(" "),
-      _c("list-order", { attrs: { "listing-route": _vm.listingRoute } }),
+      _c("list-order", {
+        ref: "list",
+        attrs: { "listing-route": _vm.listingRoute },
+      }),
     ],
     1
   )

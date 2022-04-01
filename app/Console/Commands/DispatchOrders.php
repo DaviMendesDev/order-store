@@ -33,11 +33,8 @@ class DispatchOrders extends Command
     {
         DB::beginTransaction();
         collect(PendingDispatchesJob::all())->each(function (PendingDispatchesJob $job) {
-            $order = $job->order;
-
-            if (! $order instanceof Order) return;
-
-            $order->dispatch();
+            $job->order->dispatch();
+            $job->delete();
         });
         DB::commit();
 

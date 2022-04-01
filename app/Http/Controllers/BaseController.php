@@ -50,7 +50,7 @@ class BaseController extends BaseApiController
         return $this->failResponse(500, "An internal error has occurred, inform the server admin.");
     }
 
-    public function runOrFail (\Closure $callback, string $successMsg, mixed $data = null): \Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function runOrFail (\Closure $callback, string $successMsg, &$data = null): \Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         try {
             DB::beginTransaction();

@@ -21,7 +21,7 @@ class OrdersController extends BaseController
         $validated = $req->validated();
         $ordersResults = [];
 
-        return $this->runOrFail(function () use ($validated, $ordersResults) {
+        return $this->runOrFail(function () use ($validated, &$ordersResults) {
             $aggregatedProducts = Aggregator::agregateBy('article_code', $validated['orders']);
             collect($aggregatedProducts)->each(function ($products) use (&$ordersResults) {
                 $newOrder = new Order();

@@ -76,7 +76,9 @@ export default {
             axios.post(this.addRoute, {
                 orders: this.orders,
                 _token: this.csrfToken
-            });
+            }).then(res => {
+                this.$emit('add', res.data.data);
+            })
         },
 
         removeOrderItem (index) {
