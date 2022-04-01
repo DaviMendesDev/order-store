@@ -94,8 +94,7 @@ Route::prefix('orders')->name('orders.')->group(function () {
     Route::get('/', [\App\Http\Controllers\Api\OrdersController::class, 'list'])->name('list');
 });
 
-Route::post('/first-endpoint', [\App\Http\Controllers\EndpointController::class, 'firstEndpoint'])->name('first-endpoint');
-Route::post('/second-endpoint', [\App\Http\Controllers\EndpointController::class, 'secondEndpoint'])->name('second-endpoint');
-Route::post('/third-endpoint', [\App\Http\Controllers\EndpointController::class, 'thirdEndpoint'])->name('third-endpoint');
-
+Route::post('first-endpoint', [\App\Http\Controllers\EndpointController::class, 'firstEndpoint'])->name('first-endpoint');
+Route::post('second-endpoint', [\App\Http\Controllers\EndpointController::class, 'secondEndpoint'])->name('second-endpoint');
+Route::post('third-endpoint', [\App\Http\Controllers\EndpointController::class, 'thirdEndpoint'])->name('third-endpoint');
 

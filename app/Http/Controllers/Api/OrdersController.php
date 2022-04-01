@@ -23,11 +23,11 @@ class OrdersController extends BaseController
 
         return $this->runOrFail(function () use ($validated, $ordersResults) {
             $aggregatedProducts = Aggregator::agregateBy('article_code', $validated['orders']);
-            collect($aggregatedProducts)->each(function ($products) use ($ordersResults) {
+            collect($aggregatedProducts)->each(function ($products) use (&$ordersResults) {
                 $newOrder = new Order();
                 $newOrder->save();
                 $newOrder->products()->createMany($products);
-                $newOrder->dispatch();
+                $newOrder->jobs()->create([]);
                 $ordersResults[] = $newOrder->toArray();
             });
         }, 'order saved successfully.', $ordersResults);

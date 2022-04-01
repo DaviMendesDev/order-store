@@ -35,6 +35,10 @@ class Order extends Discountable
         return $this->hasMany(OrderProduct::class);
     }
 
+    public function jobs (): \Illuminate\Database\Eloquent\Relations\HasMany {
+        return $this->hasMany(PendingDispatchesJob::class);
+    }
+
     /**
      * @throws Utils\Model\ModelException
      */

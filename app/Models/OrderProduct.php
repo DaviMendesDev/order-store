@@ -60,7 +60,9 @@ class OrderProduct extends Discountable
     {
         $this->throwsIfNull('quantity', 'unit_price');
 
-        return ($this->totalAmountWithoutDiscount() / 100) * self::discountPercentage();
+        return $this->hasDiscount()
+                ? ($this->totalAmountWithoutDiscount() / 100) * self::discountPercentage()
+                : 0;
     }
 
     /**
