@@ -15,7 +15,6 @@ trait Dispatchable
             $e = new $endpointClassName($this);
             $this->throwsIf(! ($e instanceof Endpoint), 'the $e variable is not an appropriated instance of Endpoint');
 
-            if (! ($e instanceof Endpoint)) return;
             $e->send();
         };
     }

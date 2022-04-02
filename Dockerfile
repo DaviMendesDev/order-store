@@ -12,4 +12,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pgsql pdo_pgsql \
     && a2enmod rewrite
 
+RUN chown www-data:www-data -R /var/www/html/public/
+RUN chown www-data:www-data -R /var/www/html/storage/
+RUN chmod 777 -R /var/www/html/public/
+
 CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]

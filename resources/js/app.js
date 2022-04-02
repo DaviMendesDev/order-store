@@ -8,6 +8,14 @@ window.Vue = require('vue').default;
 
 window.axios = require('axios');
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faChevronDown, faChevronUp);
+
 Vue.use(require('vue-the-mask'));
 Vue.use(require('v-money'), { masked: false });
 Vue.use(require('maska'));
@@ -28,6 +36,8 @@ Vue.component('home', require('./components/Home.vue').default);
 Vue.component('list-order', require('./components/orders/List.vue').default);
 Vue.component('add-order', require('./components/orders/Add.vue').default);
 Vue.component('order-list-item', require('./components/orders/OrderListItem.vue').default);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

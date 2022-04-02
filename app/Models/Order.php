@@ -25,6 +25,10 @@ class Order extends Discountable
         'code',
     ];
 
+    protected $with = [
+        'products'
+    ];
+
     protected array $dispatchEndpoints = [
         FirstEndpoint::class,
         SecondEndpoint::class,
@@ -37,6 +41,12 @@ class Order extends Discountable
 
     public function jobs (): \Illuminate\Database\Eloquent\Relations\HasMany {
         return $this->hasMany(PendingDispatchesJob::class);
+    }
+
+    public function createAndPrepareDispatch ($products) {
+        $this->save();
+        $this->products()->createMany($products);
+        $this->jobs()->create([]);
     }
 
     /**

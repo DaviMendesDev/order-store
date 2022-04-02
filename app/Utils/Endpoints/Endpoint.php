@@ -159,4 +159,28 @@ abstract class Endpoint implements EndpointInterface
     protected function asyncHandle(Response|ConnectionException $response) {
         return null;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAlteredData(): mixed
+    {
+        return $this->alteredData;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRenameable(): array
+    {
+        return $this->renameable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRawData(): mixed
+    {
+        return $this->rawData;
+    }
 }
