@@ -14,7 +14,7 @@ This command will run `$ composer install`, `$ npm install` and `$ npm run dev` 
 
 After you will need to run the migrations to set up the database:
 
-(<b>Notice: To run migrations, and any database artisan service, you first need to set up properly your `.env` file. To set up your `.env` file properly, please see the [.env](#.env-file) section</b>)
+(<b>Notice: To run migrations, and any database artisan service, you first need to set up properly your `.env` file. To set up your `.env` file properly, please see the [.env](#env-file) section</b>)
 ```
 $ docker exec order-store php artisan migrate:fresh
 ```
