@@ -19,7 +19,7 @@ After you will need to run the migrations to set up the database:
 $ docker exec order-store php artisan migrate:fresh
 ```
 
-Finally, all that you need to do now is run the schedule (it's like a CRON job locally), to do this you will need to run the artisan's test command below:
+Finally, all that you need to do now is run the schedule (it's like a CRON job locally), to do this you will need to run the artisan's command below:
 
 ```
 $ docker exec order-store php artisan schedule:work
